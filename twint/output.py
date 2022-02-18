@@ -126,9 +126,9 @@ def _output(obj, output, config, **extra):
                 print("unicode error [x] output._output")
 
 
-async def checkData(tweet, config, conn):
+async def checkData(origin_tweet, config, conn):
     logme.debug(__name__ + ':checkData')
-    tweet = Tweet(tweet, config)
+    tweet = Tweet(origin_tweet, config)
     if not tweet.datestamp:
         logme.critical(__name__ + ':checkData:hiddenTweetFound')
         print("[x] Hidden tweet found, account suspended due to violation of TOS")
@@ -137,7 +137,7 @@ async def checkData(tweet, config, conn):
         output = format.Tweet(config, tweet)
         if config.Database:
             logme.debug(__name__ + ':checkData:Database')
-            db.tweets(conn, tweet, config)
+            db.tweets(conn, origin_tweet, config)
         if config.Pandas:
             logme.debug(__name__ + ':checkData:Pandas')
             panda.update(tweet, config)
